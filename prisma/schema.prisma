@@ -9,85 +9,36 @@ datasource db {
 
 model User {
   id          Int       @id @default(autoincrement())
-  name        String
-  email       String    @unique
-  phoneNumber String?
+  username    String    @unique
   password    String
-  tickets     Ticket[]  // Relasi ke tiket yang dibeli pengguna
+  role        String
 }
 
-model Concert {
-  id           Int           @id @default(autoincrement())
-  name         String
-  date         DateTime
-  location     String
-  description  String?
-  maxCapacity  Int
-  tickets      Ticket[]      // Relasi ke tiket yang terhubung dengan konser ini
-  seatingZones SeatingZone[] // Relasi ke zona tempat duduk jika ada
+model Customer {
+  id            Int       @id @default(autoincrement())
+  nama_lengkap  String
+  nomer_hp      String
+  alamat        String
+  tiket         Tiket[]   // Relasi ke Tiket (satu customer bisa punya banyak tiket)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
-model Ticket {
-  id          Int       @id @default(autoincrement())
-  concert     Concert   @relation(fields: [concertId], references: [id])
-  concertId   Int
-  user        User?     @relation(fields: [userId], references: [id])
-  userId      Int?
-  purchaseDate DateTime
-  price       Decimal
-  seatNumber  String?
-  status      TicketStatus
-  payment     Payment?  // Relasi ke pembayaran tiket
-  checkIns    CheckIn[] // Relasi ke check-in tiket
-
-  @@index([userId])
-  @@index([concertId])
-}
-
-model Payment {
-  id            Int           @id @default(autoincrement())
-  ticket        Ticket        @relation(fields: [ticketId], references: [id])
-  ticketId      Int           @unique
-  amount        Decimal
-  paymentDate   DateTime
-  paymentMethod PaymentMethod
-  status        PaymentStatus
-}
-
-model SeatingZone {
+model Event {
   id           Int       @id @default(autoincrement())
-  concert      Concert   @relation(fields: [concertId], references: [id])
-  concertId    Int
-  name         String
-  priceMultiplier Float
-  seatCount    Int
+  nama_event   String
+  tanggal      String
+  tempat       String
+  tiket        Tiket[]   // Relasi ke Tiket (satu event bisa punya banyak tiket)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }
 
-model CheckIn {
-  id          Int       @id @default(autoincrement())
-  ticket      Ticket    @relation(fields: [ticketId], references: [id])
-  ticketId    Int       @unique // Pastikan setiap tiket hanya di-check-in sekali
-  checkInTime DateTime
-}
-
-// Enum untuk status tiket
-enum TicketStatus {
-  booked
-  canceled
-  checked_in
-}
-
-// Enum untuk metode pembayaran
-enum PaymentMethod {
-  credit_card
-  debit_card
-  paypal
-  bank_transfer
-}
-
-// Enum untuk status pembayaran
-enum PaymentStatus {
-  completed
-  pending
-  failed
+model Tiket {
+  id           Int       @id @default(autoincrement())
+  tiket_nomer  String    @unique
+  eventId      Int       // Foreign key untuk Event
+  customerId   Int       // Foreign key untuk Customer
+  event        Event     @relation(fields: [eventId], references: [id]) // Relasi ke Event
+  customer     Customer  @relation(fields: [customerId], references: [id]) // Relasi ke Customer
 }

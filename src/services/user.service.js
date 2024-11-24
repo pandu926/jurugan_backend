@@ -1,37 +1,46 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma = require("../utils/prismaClient"); // Prisma client instance
+const bcrypt = require("bcrypt");
 
-const add = async (data_user) => {
-  const { name, email, phoneNumber, password } = data_user;
-  return await prisma.user.create({
+const getAllUsers = async () => {
+  return prisma.user.findMany();
+};
+
+const createUser = async (data) => {
+  const saltRounds = 10; // Bisa disesuaikan dengan kebutuhan
+
+  // Enkripsi password menggunakan bcrypt
+  const hashedPassword = await bcrypt.hash(data.password, saltRounds);
+
+  // Simpan user dengan password yang sudah terenkripsi
+  const user = await prisma.user.create({
     data: {
-      name,
-      email,
-      phoneNumber,
-      password,
+      username: data.username,
+      password: hashedPassword,
+      role: data.role,
     },
   });
+
+  return user;
 };
-const getSingle = async (id) => {
-  return await prisma.user.findUnique(id);
+const getUserById = async (id) => {
+  return prisma.user.findUnique({ where: { id: parseInt(id, 10) } });
 };
 
-const getAll = async () => {
-  return await prisma.user.findMany();
-};
-const update = async (id, data_user) => {
-  return await prisma.user.update(data_user, {
-    where: { id },
+const updateUser = async (id, data) => {
+  return prisma.user.update({
+    where: { id: parseInt(id, 10) },
+    data,
   });
 };
-const remove = () => {};
 
-const service = {
-  add,
-  getSingle,
-  getAll,
-  remove,
-  update,
+const deleteUser = async (id) => {
+  return prisma.user.delete({ where: { id: parseInt(id, 10) } });
 };
 
-module.exports = service;
+module.exports = {
+  getAllUsers,
+  createUser,
+  getUserById,
+  updateUser,
+  deleteUser,
+};

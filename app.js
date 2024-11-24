@@ -9,6 +9,9 @@ const path = require("path");
 const cors = require("cors");
 
 const userRoute = require("./src/routes/user.route");
+const tiketRoute = require("./src/routes/tiket.route");
+const customerRoute = require("./src/routes/customer.route");
+const eventRoute = require("./src/routes/event.route");
 
 app.use(cors());
 
@@ -20,6 +23,9 @@ app.get("/", (req, res) => {
 });
 
 app.use(userRoute);
+app.use(tiketRoute);
+app.use(customerRoute);
+app.use(eventRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
