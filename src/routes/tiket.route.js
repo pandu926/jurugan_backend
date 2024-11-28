@@ -3,10 +3,10 @@ const tiketController = require("../controllers/tiket.controller");
 
 const tiketRoute = express.Router();
 
-tiketRoute.get("/", tiketController.getAllTickets);
-tiketRoute.post("/", tiketController.createTicket);
-tiketRoute.get("/:id", tiketController.getTicketById);
-tiketRoute.put("/:id", tiketController.updateTicket);
-tiketRoute.delete("/:id", tiketController.deleteTicket);
+tiketRoute.get("/tiket", tiketController.getAllTickets);
+tiketRoute.post("/tiket", tiketController.createTicket);
+tiketRoute.get("/tiket/:id", tiketController.getTicketById);
+tiketRoute.put("/tiket/:id", tiketController.updateTicket);
+tiketRoute.delete("/tiket/:id", tiketController.deleteTicket);
 
 module.exports = tiketRoute;

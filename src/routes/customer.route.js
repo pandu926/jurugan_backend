@@ -3,10 +3,10 @@ const customerController = require("../controllers/customer.controller");
 
 const customerRoute = express.Router();
 
-customerRoute.get("/", customerController.getAllCustomers);
-customerRoute.post("/", customerController.createCustomer);
-customerRoute.get("/:id", customerController.getCustomerById);
-customerRoute.put("/:id", customerController.updateCustomer);
-customerRoute.delete("/:id", customerController.deleteCustomer);
+customerRoute.get("/customer", customerController.getAllCustomers);
+customerRoute.post("/customer", customerController.createCustomer);
+customerRoute.get("/customer/:id", customerController.getCustomerById);
+customerRoute.put("/customer/:id", customerController.updateCustomer);
+customerRoute.delete("/customer/:id", customerController.deleteCustomer);
 
 module.exports = customerRoute;
