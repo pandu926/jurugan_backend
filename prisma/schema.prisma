@@ -17,7 +17,7 @@ model User {
 model Customer {
   id            Int       @id @default(autoincrement())
   nama_lengkap  String
-  nomer_hp      String
+  nomer_hp      String    @unique
   alamat        String
   tiket         Tiket[]   // Relasi ke Tiket (satu customer bisa punya banyak tiket)
   createdAt     DateTime  @default(now())
@@ -29,7 +29,6 @@ model Event {
   nama_event   String
   tanggal      String
   tempat       String
-  tiket        Tiket[]   // Relasi ke Tiket (satu event bisa punya banyak tiket)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 }
@@ -37,8 +36,9 @@ model Event {
 model Tiket {
   id           Int       @id @default(autoincrement())
   tiket_nomer  String    @unique
-  eventId      Int       // Foreign key untuk Event
-  customerId   Int       // Foreign key untuk Customer
-  event        Event     @relation(fields: [eventId], references: [id]) // Relasi ke Event
-  customer     Customer  @relation(fields: [customerId], references: [id]) // Relasi ke Customer
+  customerId   Int?       // Foreign key untuk Customer
+  customer     Customer?  @relation(fields: [customerId], references: [id]) // Relasi ke Customer
+  status       String    
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }

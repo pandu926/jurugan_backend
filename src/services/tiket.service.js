@@ -3,7 +3,7 @@ const prisma = require("../utils/prismaClient");
 const getAllTickets = async () =>
   prisma.tiket.findMany({
     include: {
-      event: true, // Relasi ke Event
+      // Relasi ke Event
       customer: true, // Relasi ke Customer
     },
   });
@@ -14,7 +14,6 @@ const getTicketById = async (id) =>
   prisma.tiket.findUnique({
     where: { id: parseInt(id, 10) },
     include: {
-      event: true,
       customer: true,
     },
   });
