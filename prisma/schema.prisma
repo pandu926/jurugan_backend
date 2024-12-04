@@ -42,3 +42,49 @@ model Tiket {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 }
+
+model Mainpage {
+  id           Int       @id @default(autoincrement())
+  slogan       String    
+  background   String
+  tentang      String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Slider {
+  id           Int       @id @default(autoincrement())
+  judul        String    
+  background   String
+  tentang      String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Tempat {
+  id           Int       @id @default(autoincrement())
+  nama        String    
+  background   String
+  waktu      String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Sponsor {
+  id           Int       @id @default(autoincrement())
+  nama         String    
+  background   String
+}
+
+model Sosmed{
+  id           Int       @id @default(autoincrement())
+  link         String    
+  background   String
+}
+
+model Checkin {
+  id           Int       @id @default(autoincrement())
+  nama         String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
