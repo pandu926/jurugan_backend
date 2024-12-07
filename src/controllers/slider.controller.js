@@ -32,7 +32,9 @@ exports.create = async (req, res) => {
       }
 
       // Dapatkan path file yang diunggah
-      const imagePath = req.file.path.replace(/\\/g, "/");
+      const imagePath = req.file.path
+        .replace(/\\/g, "/")
+        .replace("public/", "");
 
       // Simpan data ke database, termasuk path gambar
       const data = {
@@ -62,13 +64,14 @@ exports.update = async (req, res) => {
       let imagePath = existingData.background;
 
       // Jika ada gambar baru, ganti path lama
+      // Jika ada gambar baru, ganti path lama
       if (req.file) {
         // Hapus file lama
         if (fs.existsSync(imagePath)) {
           fs.unlinkSync(imagePath);
         }
 
-        imagePath = `/uploads/${req.file.filename}`;
+        imagePath = `uploads/${req.file.filename}`;
       }
 
       const updatedData = {
