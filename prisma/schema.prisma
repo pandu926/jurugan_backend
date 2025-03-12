@@ -8,83 +8,89 @@ datasource db {
 }
 
 model User {
-  id          Int       @id @default(autoincrement())
-  username    String    @unique
+  id          Int    @id @default(autoincrement())
+  username    String @unique
   password    String
   role        String
 }
 
 model Customer {
-  id            Int       @id @default(autoincrement())
-  nama_lengkap  String
-  nomer_hp      String    @unique
-  alamat        String
-  tiket         Tiket[]   // Relasi ke Tiket (satu customer bisa punya banyak tiket)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id           String    @id @default(uuid()) // Menggunakan UUID sebagai ID
+  nama_lengkap String
+  nomer_hp     String    @unique
+  alamat       String
+  tiket        Tiket[]   // Relasi ke Tiket (satu customer bisa punya banyak tiket)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }
 
 model Event {
-  id           Int       @id @default(autoincrement())
-  nama_event   String
-  tanggal      String
-  tempat       String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id          Int       @id @default(autoincrement())
+  nama_event  String
+  tanggal     String
+  tempat      String
+  tiket       Tiket[]   // Relasi ke Tiket (satu event bisa punya banyak tiket)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Tiket {
-  id           Int       @id @default(autoincrement())
-  tiket_nomer  String    @unique
-  customerId   Int?       // Foreign key untuk Customer
-  customer     Customer?  @relation(fields: [customerId], references: [id]) // Relasi ke Customer
-  status       String    
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id          Int       @id @default(autoincrement())
+  tiket_nomer String    @unique
+  customerId  String?   // Menggunakan UUID untuk relasi ke Customer
+  customer    Customer? @relation(fields: [customerId], references: [id]) // Relasi ke Customer
+  eventId     Int       // Foreign key untuk Event
+  event       Event     @relation(fields: [eventId], references: [id]) // Relasi ke Event
+  status      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Mencegah customer memiliki lebih dari satu tiket dalam satu event
+  @@unique([customerId, eventId])
 }
 
 model Mainpage {
-  id           Int       @id @default(autoincrement())
-  slogan       String    
-  background   String
-  tentang      String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id         Int      @id @default(autoincrement())
+  slogan     String
+  background String
+  tentang    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Slider {
-  id           Int       @id @default(autoincrement())
-  judul        String    
-  background   String
-  tentang      String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id         Int      @id @default(autoincrement())
+  judul      String
+  background String
+  tentang    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Tempat {
-  id           Int       @id @default(autoincrement())
-  nama        String    
-  background   String
+  id         Int      @id @default(autoincrement())
+  nama       String
+  background String
   waktu      String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Sponsor {
-  id           Int       @id @default(autoincrement())
-  nama         String    
-  background   String
+  id         Int      @id @default(autoincrement())
+  nama       String
+  background String
 }
 
-model Sosmed{
-  id           Int       @id @default(autoincrement())
-  link         String    
-  background   String
+model Sosmed {
+  id         Int      @id @default(autoincrement())
+  link       String
+  background String
 }
 
 model Checkin {
-  id           Int       @id @default(autoincrement())
-  nama         String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id         Int      @id @default(autoincrement())
+  nama       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

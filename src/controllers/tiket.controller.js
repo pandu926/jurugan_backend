@@ -10,11 +10,40 @@ const getAllTickets = async (req, res) => {
 };
 
 const createTicket = async (req, res) => {
+  const { customerId, eventId } = req.body;
   try {
+    const tiket = await tiketService.existingTicket(customerId, eventId);
+    if (tiket) {
+      return res.status(400).json({
+        success: false,
+        message: "Customer sudah memiliki tiket untuk event ini.",
+      });
+    }
     const ticket = await tiketService.createTicket(req.body);
-    res.status(201).json(ticket);
+    return res.status(201).json(ticket);
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+};
+
+const searchTicket = async (req, res) => {
+  const { nomer_hp, eventId } = req.query;
+  try {
+    const ticket = await tiketService.findTicketByPhoneAndEvent(
+      nomer_hp,
+      parseInt(eventId, 10)
+    );
+
+    if (!ticket) {
+      return res.status(404).json({
+        success: false,
+        message: "Tiket tidak ditemukan",
+      });
+    }
+
+    res.status(200).json({ success: true, data: ticket });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -47,6 +76,7 @@ const deleteTicket = async (req, res) => {
 };
 
 module.exports = {
+  searchTicket,
   getAllTickets,
   createTicket,
   getTicketById,
