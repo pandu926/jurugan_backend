@@ -18,11 +18,11 @@ const sponsorRoute = require("./src/routes/sponsor.route");
 const sliderRoute = require("./src/routes/slider.route");
 const tempatRoute = require("./src/routes/tempat.route");
 const checkinRoute = require("./src/routes/checkin.route");
-
+const jadwalRoute = require("./src/routes/jadwal.route");
 app.use(cors());
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -41,7 +41,6 @@ app.use(tempatRoute);
 app.use(sponsorRoute);
 app.use(sliderRoute);
 app.use(checkinRoute);
+app.use(jadwalRoute);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = app;

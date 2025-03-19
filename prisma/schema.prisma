@@ -89,8 +89,15 @@ model Sosmed {
 }
 
 model Checkin {
-  id         Int      @id @default(autoincrement())
-  nama       String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id           Int       @id @default(autoincrement())
+  nama         String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }
+model Jadwal {
+  id           Int       @id @default(autoincrement())
+  judul        String
+  tanggal      String
+  deskripsi    String
+}
+

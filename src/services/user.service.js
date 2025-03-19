@@ -9,7 +9,8 @@ const createUser = async (data) => {
   const saltRounds = 10; // Bisa disesuaikan dengan kebutuhan
 
   // Enkripsi password menggunakan bcrypt
-  const hashedPassword = await bcrypt.hash(data.password, saltRounds);
+  const hashedPassword = await bcrypt.hash(data.password, 10);
+  console.log(hashedPassword, saltRounds);
 
   // Simpan user dengan password yang sudah terenkripsi
   const user = await prisma.user.create({
