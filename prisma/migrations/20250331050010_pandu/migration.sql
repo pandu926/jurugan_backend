@@ -10,7 +10,7 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Customer" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "nama_lengkap" TEXT NOT NULL,
     "nomer_hp" TEXT NOT NULL,
     "alamat" TEXT NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE "Event" (
 CREATE TABLE "Tiket" (
     "id" SERIAL NOT NULL,
     "tiket_nomer" TEXT NOT NULL,
-    "customerId" INTEGER,
+    "customerId" TEXT,
     "eventId" INTEGER NOT NULL,
     "status" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -51,6 +51,7 @@ CREATE TABLE "Mainpage" (
     "slogan" TEXT NOT NULL,
     "background" TEXT NOT NULL,
     "tentang" TEXT NOT NULL,
+    "tanggal" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -107,6 +108,16 @@ CREATE TABLE "Checkin" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Checkin_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Jadwal" (
+    "id" SERIAL NOT NULL,
+    "judul" TEXT NOT NULL,
+    "tanggal" TEXT NOT NULL,
+    "deskripsi" TEXT NOT NULL,
+
+    CONSTRAINT "Jadwal_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

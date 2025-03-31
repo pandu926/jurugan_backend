@@ -35,7 +35,7 @@ model Event {
 }
 
 model Tiket {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   tiket_nomer String    @unique
   customerId  String?   // Menggunakan UUID untuk relasi ke Customer
   customer    Customer? @relation(fields: [customerId], references: [id]) // Relasi ke Customer
@@ -54,6 +54,7 @@ model Mainpage {
   slogan     String
   background String
   tentang    String
+  tanggal    String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
